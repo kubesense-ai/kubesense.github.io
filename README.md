@@ -4,9 +4,19 @@
 
 # Kubesense Installation
 
-- [Introduction](#Introduction)
-- [Requirements](#Requirements)
-- [Installation Using Helm Chart](#Installation-Using-Helm-Chart)
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+- [Cluster Requirement](#cluster-requirement)
+  - [Supported Kubernetes Version](#supported-kubernetes-version)
+  - [Kubernetes RBAC permissions](#kubernetes-rbac-permissions)
+- [Installation Using Helm Chart](#installation-using-helm-chart)
+  - [Deploy Only Server](#deploy-only-server)
+  - [Deploy Only Server](#deploy-only-sensor)
+  - [To Add Tolerations and nodeAffinitySelectors](#to-add-tolerations-and-nodeaffinityselectors)
+- [External DB setup](#external-db-setup)
+  - [External Clickhouse](#external-clickhouse)
+  - [External Redis](#external-redis)
+- [Ingress](#ingress)
 
 ## Introduction
 Kubesense has two group of elements one is `server` & another is `sensor`. Each can be deployed in different clusters, If the services needs to be monitored are also present in the same cluster where kubesense servers are running you can use `incluster`  deployment where the server and sensor runs in the same cluster.
