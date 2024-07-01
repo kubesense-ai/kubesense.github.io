@@ -3,7 +3,7 @@ entries:
   kubesense:
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-06-27T10:02:53.877071+05:30"
+    created: "2024-07-01T14:44:23.865222+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -55,7 +55,7 @@ entries:
       version: '*.*.*'
     description: Add clickhouse sharding, external Mysql, redis, ch, vm, update related
       to
-    digest: e2b5f5d25ab8fc8bb7834613072b5cd1d8b36efb3cd214667e56107f8277d3ea
+    digest: 5b05f5a8a36e29a842407dcc6a5c4c60a3436421b7c370ceb92446d67e37d586
     name: kubesense
     type: application
     urls:
@@ -63,7 +63,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2024-06-27T10:02:53.85882+05:30"
+    created: "2024-07-01T14:44:23.833554+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -114,7 +114,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-06-27T10:02:53.846514+05:30"
+    created: "2024-07-01T14:44:23.815052+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -163,4 +163,4 @@ entries:
     urls:
     - kubesense-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-27T10:02:53.833671+05:30"
+generated: "2024-07-01T14:44:23.791979+05:30"
