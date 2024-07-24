@@ -3,7 +3,7 @@ entries:
   kubesense:
   - apiVersion: v1
     appVersion: 0.2.7
-    created: "2024-07-24T10:32:01.912364+05:30"
+    created: "2024-07-24T11:43:40.652042+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -49,7 +49,7 @@ entries:
     version: 1.0.12
   - apiVersion: v1
     appVersion: 0.2.6
-    created: "2024-07-24T10:32:01.897004+05:30"
+    created: "2024-07-24T11:43:40.636496+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -95,7 +95,7 @@ entries:
     version: 1.0.11
   - apiVersion: v1
     appVersion: 0.2.4
-    created: "2024-07-24T10:32:01.880286+05:30"
+    created: "2024-07-24T11:43:40.619883+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -141,7 +141,7 @@ entries:
     version: 1.0.10
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2024-07-24T10:32:02.053065+05:30"
+    created: "2024-07-24T11:43:40.795132+05:30"
     description: Update relase name fix & added password generator referencing from
       a secret which is created at the time of hook pre-install, update secret ref
       name, Add ingress, Update randPawords to persist with global value, fix secret
@@ -154,7 +154,7 @@ entries:
     version: 1.0.9
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:02.040045+05:30"
+    created: "2024-07-24T11:43:40.781458+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -216,7 +216,7 @@ entries:
     version: 1.0.8
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:02.019912+05:30"
+    created: "2024-07-24T11:43:40.761287+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -277,7 +277,7 @@ entries:
     version: 1.0.7
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:02.003024+05:30"
+    created: "2024-07-24T11:43:40.744219+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -338,7 +338,7 @@ entries:
     version: 1.0.6
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:01.985315+05:30"
+    created: "2024-07-24T11:43:40.726142+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -399,7 +399,7 @@ entries:
     version: 1.0.5
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:01.967033+05:30"
+    created: "2024-07-24T11:43:40.708728+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -460,7 +460,7 @@ entries:
     version: 1.0.4
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:01.947547+05:30"
+    created: "2024-07-24T11:43:40.688851+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -520,7 +520,7 @@ entries:
     version: 1.0.3
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-07-24T10:32:01.930313+05:30"
+    created: "2024-07-24T11:43:40.671094+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -580,7 +580,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2024-07-24T10:32:01.866398+05:30"
+    created: "2024-07-24T11:43:40.605836+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -631,7 +631,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-07-24T10:32:01.853891+05:30"
+    created: "2024-07-24T11:43:40.59281+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -683,7 +683,7 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-07-24T10:32:02.061711+05:30"
+    created: "2024-07-24T11:43:40.804591+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -695,7 +695,7 @@ entries:
       version: '*.*.*'
     description: kubesensor runs on kernal to track the traces, change for ignoring
       logs namespace
-    digest: 1efb4db278cc10edf5421f8acc4635afc835f656a3b44a1f72d699edef203fe1
+    digest: 6479398c8f4579cd1e9dd6f03fff4cae0dc57654ba76659067850819b1aaec50
     kubeVersion: '>=1.16.0-0'
     name: kubesensor
     type: application
@@ -704,7 +704,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-07-24T10:32:02.058829+05:30"
+    created: "2024-07-24T11:43:40.801836+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -724,7 +724,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-07-24T10:32:02.055824+05:30"
+    created: "2024-07-24T11:43:40.798374+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -742,4 +742,4 @@ entries:
     urls:
     - kubesensor/kubesensor-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-24T10:32:01.840546+05:30"
+generated: "2024-07-24T11:43:40.578623+05:30"
