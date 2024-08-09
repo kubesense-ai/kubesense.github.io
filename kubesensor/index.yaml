@@ -3,7 +3,7 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-08-09T14:45:53.866513+05:30"
+    created: "2024-08-09T15:13:51.156044+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -24,7 +24,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-08-09T14:45:53.863612+05:30"
+    created: "2024-08-09T15:13:51.153228+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -45,7 +45,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-08-09T14:45:53.861066+05:30"
+    created: "2024-08-09T15:13:51.150603+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -66,7 +66,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-08-09T14:45:53.857949+05:30"
+    created: "2024-08-09T15:13:51.147661+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -86,7 +86,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-08-09T14:45:53.855391+05:30"
+    created: "2024-08-09T15:13:51.145153+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -104,4 +104,4 @@ entries:
     urls:
     - kubesensor-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-09T14:45:53.852328+05:30"
+generated: "2024-08-09T15:13:51.142061+05:30"
