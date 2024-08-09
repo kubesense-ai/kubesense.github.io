@@ -2,8 +2,29 @@ apiVersion: v1
 entries:
   kubesensor:
   - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-08-09T10:35:53.082332+05:30"
+    dependencies:
+    - condition: otel-agent.enabled
+      name: otel-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: ""
+      version: '*.*.*'
+    description: kubesensor runs on kernal to track the traces, change for ignoring
+      logs namespace
+    digest: db0a60e2a5e5a5bc8e65fca07a55f71cbccd4d9993cf9a297624432934570156
+    kubeVersion: '>=1.16.0-0'
+    name: kubesensor
+    type: application
+    urls:
+    - kubesensor-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-07-31T14:13:21.796282+05:30"
+    created: "2024-08-09T10:35:53.079009+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -24,7 +45,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-07-31T14:13:21.789996+05:30"
+    created: "2024-08-09T10:35:53.076202+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -45,7 +66,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-07-31T14:13:21.786816+05:30"
+    created: "2024-08-09T10:35:53.073675+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -65,7 +86,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-07-31T14:13:21.781452+05:30"
+    created: "2024-08-09T10:35:53.070802+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -83,4 +104,4 @@ entries:
     urls:
     - kubesensor-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-31T14:13:21.773165+05:30"
+generated: "2024-08-09T10:35:53.068166+05:30"
