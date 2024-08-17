@@ -93,15 +93,15 @@ helm repo update kubesense
 ```
 cat << EOF > values-custom.yaml
 global:
-  deploymentType: incluster # incluster | server | sensor
+  deploymentType: server | sensor
   cluster_name: k8s-cluster
   dashboardHostName: <INGRESS_HOSTNAME_FOR_UI>
   redis:
-    password: <REDIS_PASSWORD>
+    password: <REDIS_PASSWORD> # {optional} if not specified will autogenerate
   clickhouse:
-    password: <CLICKHOUSE_PASSWORD>
+    password: <CLICKHOUSE_PASSWORD> # {optional} if not specified will autogenerate
   mysql:
-    password: <MYSQL_PASSWORD>
+    password: <MYSQL_PASSWORD> # {optional} if not specified will autogenerate
 EOF
 ```
 (4) Deploy kubesense release
@@ -122,15 +122,15 @@ global:
     className: nginx
   dashboardHostName: <INGRESS_HOSTNAME_FOR_UI>
   redis:
-    password: <REDIS_PASSWORD> {optional}
+    password: <REDIS_PASSWORD> # {optional} if not specified will autogenerate
   clickhouse:
-    password: <CLICKHOUSE_PASSWORD> {optional}
+    password: <CLICKHOUSE_PASSWORD> # {optional} if not specified will autogenerate
   mysql:
-    password: <MYSQL_PASSWORD> {optional}
+    password: <MYSQL_PASSWORD> # {optional} if not specified will autogenerate
 EOF
 ```
 
-### Deploy Only Sensor
+### Deploy Sensor
 while deploying sensor you need to give the kubeotel_ip, kubeOtelGrpcPort, kubeOtelHttpPort which you would get during server deployment 
 ```
 cat << EOF > values-custom.yaml
