@@ -83,7 +83,7 @@ Kubecol (Kind: `Deployement`)
 
 (1) Add Helm repo
 ```
-helm repo add kubesense https://helm.kubesense.ai/kubesense
+helm repo add kubesense https://helm.kubesense.ai
 ```
 (2) Update kubesense Helm repository to fetch latest charts
 ```
@@ -117,19 +117,16 @@ cat << EOF > values-custom.yaml
 global:
   deploymentType: server # incluster | server | sensor
   cluster_name: k8s-cluster
+  ingress:
+    enabled: false
+    className: nginx
   dashboardHostName: <INGRESS_HOSTNAME_FOR_UI>
   redis:
-    password: <REDIS_PASSWORD>
+    password: <REDIS_PASSWORD> {optional}
   clickhouse:
-    password: <CLICKHOUSE_PASSWORD>
+    password: <CLICKHOUSE_PASSWORD> {optional}
   mysql:
-    password: <MYSQL_PASSWORD>
-kubesensor:
-  enabled: false
-otel-agent:
-  enabled: false
-kube-state-metrics:
-  enabled: false
+    password: <MYSQL_PASSWORD> {optional}
 EOF
 ```
 
