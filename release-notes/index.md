@@ -5,12 +5,8 @@
 1. Update scrape interval to 10s in otel agent
 1. Update otel cluster role permission with the 
 1. Add count of available fields in all sidebar filters
-
-*Service Map*
-1. Add dropdown in Service map connections view where a user can select only error traces
-
-*Traces Summary*
-1. Add search bar in Traces Summary to search on clustered_resource
+1. Add dropdown in Service map connections view where a user can select only error traces(Service Map) 
+1. Add search bar in Traces Summary to search on clustered_resource(Traces Summary)
 
 # 1.0.15
 ## Features & Improvements
