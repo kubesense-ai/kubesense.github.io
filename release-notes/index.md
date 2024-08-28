@@ -17,7 +17,7 @@
 1. Updated log aggregator to use http connections instead of grpc
 2. Update kubecol version to 1.0.4 to update entity_last & entity_last_local tables
 3. Update aggregator to support multi-platform
-    * support for arm63 images included
+    * support for arm64 images included
 4. Add HPA for kubecol
 5. Remove ckissuer auto drop clickhouse parts if pvc has reached its limit
 6. Add security context values for logsensor
