@@ -4,8 +4,6 @@
 1. Disabled redis in kubesense
 1. Update scrape interval to 10s in otel agent
 1. Update otel cluster role permission with the 
-
-### UI
 1. Add count of available fields in all sidebar filters
 #### Service Map
 1. Add dropdown in Service map connections view where a user can select only error traces
