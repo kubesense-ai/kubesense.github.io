@@ -1,7 +1,6 @@
 
 ![Logo](https://kubesense-assets.s3.ap-south-1.amazonaws.com/kubesenselogo.png)
 
-
 # Kubesense Installation
 
 - [Introduction](#introduction)
@@ -131,16 +130,16 @@ EOF
 ```
 
 ### Deploy Sensor
-while deploying sensor you need to give the kubeotel_ip, kubeOtelGrpcPort, kubeOtelHttpPort which you would get during server deployment 
+while deploying sensor you need to give the kubeAggregator_ip, kubeAggregatorGrpcPort, kubeAggregatorHttpPort which you would get during server deployment 
 ```
 cat << EOF > values-custom.yaml
 global:
   deploymentType: sensor # incluster | server | sensor
   cluster_name: k8s-cluster
   dashboardHostName: <INGRESS_HOSTNAME_FOR_UI>
-  kubeOtelIp: <KUBEOTEL_IP> # eg. kubesense-kubeotel
-  kubeOtelGrpcPort: <KUBEOTEL_GRPC_PORT> # eg. 30050
-  kubeOtelHttpPort: <KUBEOTEL_HTTP_PORT> # eg. 30051
+  kubeAggregatorIp: <KUBEAGGREGATOR_IP> # eg. kubesense-kubeAggregator
+  kubeAggregatorGrpcPort: <KUBEAGGREGATO_GRPC_PORT> # eg. 30050
+  kubeAggregatorHttpPort: <KUBEAGGREGATO_HTTP_PORT> # eg. 30051
 EOF
 ```
 
