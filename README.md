@@ -1,7 +1,7 @@
 
 ![Logo](https://kubesense-assets.s3.ap-south-1.amazonaws.com/kubesenselogo.png)
 
-# Kubesense Installation 
+# Kubesense Installation
 
 - [Introduction](#introduction)
 - [Requirements](#requirements)
