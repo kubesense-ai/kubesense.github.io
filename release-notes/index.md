@@ -1,3 +1,13 @@
+# 1.0.18
+## Features & Improvements
+1. Add Masking for logs and traces.
+1. Add resource path search on trace summary view.
+1. Add additional filters in service map trace connections.
+1. UI improvements on workload screens.
+1. Performance optimisations on metrics scrapper.
+1. Update helm values to use gloabl values for image registry and pullSecrets
+1. Bug fixes.
+
 # 1.0.17 
 ## Features & Improvements
 1. Affinity rules for clickhouse updated similar to other charts
