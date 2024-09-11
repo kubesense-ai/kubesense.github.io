@@ -1,0 +1,28 @@
+Sensor deployed
+
+Traces => kubecol
+IP: {{ include "kubecol.fullname" . }} PORT: 32033
+
+Logs => Aggregator
+IP: {{ .Values.global.kubeAggregatorIp }} PORT: {{ .Values.global.nodePort.kubeAggregatorLogPort }}
+
+Infrastructure info => kubecol
+IP: {{ include "kubecol.fullname" . }} PORT: 32133
+
+Metrics => VMAgent
+IP: {{ .Values.global.vmAgentIp }} PORT: {{ .Values.global.vmAgentHttpPort }}
+
+Events => Aggregator OTLP Port 
+IP: {{ .Values.global.kubeAggregatorIp }} PORT: {{ .Values.global.nodePort.kubeAggregatorGrpcPort }}
+
+Info:
+Current Deployed Revision: {{ .Release.Revision }} 
+
+Is Secret Present: {{ include "passwords.isSecretPresent" . }}
+
+██╗░░██╗██╗░░░██╗██████╗░███████╗░██████╗███████╗███╗░░██╗░██████╗███████╗
+██║░██╔╝██║░░░██║██╔══██╗██╔════╝██╔════╝██╔════╝████╗░██║██╔════╝██╔════╝
+█████═╝░██║░░░██║██████╦╝█████╗░░╚█████╗░█████╗░░██╔██╗██║╚█████╗░█████╗░░
+██╔═██╗░██║░░░██║██╔══██╗██╔══╝░░░╚═══██╗██╔══╝░░██║╚████║░╚═══██╗██╔══╝░░
+██║░╚██╗╚██████╔╝██████╦╝███████╗██████╔╝███████╗██║░╚███║██████╔╝███████╗
+╚═╝░░╚═╝░╚═════╝░╚═════╝░╚══════╝╚═════╝░╚══════╝╚═╝░░╚══╝╚═════╝░╚══════╝

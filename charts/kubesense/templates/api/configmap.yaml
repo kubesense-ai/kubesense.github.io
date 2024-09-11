@@ -1,0 +1,36 @@
+{{- if or (eq .Values.global.deploymentType "incluster") (eq .Values.global.deploymentType "server") }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "api.fullname" . }}
+  labels:
+    {{- include "api.labels" . | nindent 4 }}
+data:
+  ENABLE_TLS: "no"
+  TESTS_STORE_HOST: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.host}}{{ else }}{{ $.Chart.Name }}-mysql{{end}}"
+  TESTS_STORE_PORT: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.port}}{{ else }}3306{{end}}"
+  TESTS_STORE_USERNAME: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.username}}{{ else }}kubesense{{end}}"
+  # Traces Store
+  TRACES_STORE_HOST: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Chart.Name }}-external-clickhouse{{ else }}{{ $.Chart.Name }}-clickhouse-headless{{end}}"
+  TRACES_STORE_PORT: "9000"
+  TRACES_STORE_USERNAME: "{{ if $.Values.global.externalClickHouse.enabled }}{{$.Values.global.externalClickHouse.username}}{{ else }}default{{end}}"
+  METRICS_STORE_ENABLED: "{{ $.Values.global.metrics.enabled }}"
+  METRICS_STORE_URL: "{{ if $.Values.global.externalVictoriaMetrics.enabled }}{{$.Values.global.externalVictoriaMetrics.url}}{{ else }}http://kubesense-victoria-metrics-single-server:8428{{ end }}"
+  # CACHE STORE
+  CACHE_HOST: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.host }}{{ else }}{{ .Chart.Name }}-redis-master{{ end }}:{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.port }}{{ else }}6379{{ end }}"
+  CACHE_PORT: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.port }}{{ else }}6379{{ end }}"
+  # ENCRYPRION KEY
+  # AWS SES CONFIGURATION
+  KUBEAI_SERVICE: "{{ $.Release.Name }}-kubeai:3003"
+  # DASHBOART_URI
+  DASHBOARD_HOST: "{{ tpl (toString $.Values.global.dashboardHostName) . }}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "api.fullname" . }}
+  labels:
+    {{- include "api.labels" . | nindent 4 }}
+stringData:
+  TOKEN: Kube@123$)(*&^%
+{{- end }}

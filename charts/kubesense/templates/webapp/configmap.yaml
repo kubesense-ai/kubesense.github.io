@@ -1,0 +1,21 @@
+{{- if or (eq .Values.global.deploymentType "incluster") (eq .Values.global.deploymentType "server") }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "webapp.fullname" . }}
+  labels:
+    {{- include "webapp.labels" . | nindent 4 }}
+data: 
+  API_HOST: "http://kubesense-api:3000"
+  ENABLE_TLS: "no"
+  GRAFANA_HOST: "http://kubesense-grafana:3000"
+  ENABLE_TRACES: "{{ .Values.webapp.traces.enabled }}"
+  ENABLE_LOGS: "{{ .Values.webapp.logs.enabled }}"
+  ENABLE_METRICS: "{{ .Values.webapp.metrics.enabled }}"
+  ENABLE_ENTITY: "{{ .Values.webapp.entity.enabled }}"
+  ENABLE_GRAFANA: "{{ .Values.webapp.grafana.enabled }}"
+  ENABLE_EVENTS: "{{ .Values.webapp.events.enabled }}"
+  ENABLE_AI: "{{ .Values.webapp.ai.enabled }}"
+  ENABLE_AI_RCA: "{{ .Values.webapp.rca.enabled }}"
+  ENABLE_AI_CHAT: "{{ .Values.webapp.chat.enabled }}"
+{{- end }}

@@ -1,0 +1,33 @@
+apiVersion: v2
+name: kubesense
+description: Prod release v1.0.1
+
+type: application
+version: 1.0.18
+appVersion: 1.0.7
+
+dependencies:
+  - condition: grafana.enabled
+    name: grafana
+    version: "*.*.*"
+  - condition: clickhouse.enabled
+    name: clickhouse
+    version: "*.*.*"
+  - condition: mysql.enabled
+    name: mysql
+    version: "*.*.*"
+  - condition: redis.enabled
+    name: redis
+    version: "*.*.*"
+  - condition: aggregator.enabled
+    name: aggregator
+    version: "*.*.*"
+  - condition: victoria-metrics-agent.enabled
+    name: victoria-metrics-agent
+    version: "*.*.*"  
+  - condition: victoria-metrics-single.enabled
+    name: victoria-metrics-single
+    version: "*.*.*"  
+  - condition: kubeai.enabled
+    name: kubeai
+    version: "*.*.*"

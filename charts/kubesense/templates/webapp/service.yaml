@@ -1,0 +1,16 @@
+{{- if or (eq .Values.global.deploymentType "incluster") (eq .Values.global.deploymentType "server") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "webapp.fullname" . }}
+  labels:
+    {{- include "webapp.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.webapp.service.type }}
+  ports:
+    - port: {{ .Values.webapp.service.port }}
+      protocol: TCP
+      name: {{ .Values.webapp.service.name }}
+  selector:
+    {{- include "webapp.selectorLabels" . | nindent 4 }}
+{{- end }}

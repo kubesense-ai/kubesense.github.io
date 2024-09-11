@@ -1,0 +1,9 @@
+dependencies:
+- name: otel-agent
+  repository: ""
+  version: '*.*.*'
+- name: kube-state-metrics
+  repository: ""
+  version: '*.*.*'
+digest: sha256:e5b54f3dc2deb7e92c6112aa79604dc0f44db74857fb206fe7d8cfc28a164885
+generated: "2024-07-10T15:13:15.049279+05:30"

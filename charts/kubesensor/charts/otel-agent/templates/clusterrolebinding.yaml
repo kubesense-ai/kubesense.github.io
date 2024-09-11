@@ -1,0 +1,22 @@
+{{- if or (.Values.clusterRole.create) (.Values.presets.kubernetesAttributes.enabled) (.Values.presets.clusterMetrics.enabled) (.Values.presets.kubeletMetrics.enabled) (.Values.presets.kubernetesEvents.enabled) -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "otel-agent.clusterRoleBindingName" . }}
+  labels:
+    {{- include "otel-agent.labels" . | nindent 4 }}
+  {{- if .Values.clusterRole.clusterRoleBinding.annotations }}
+  annotations:
+    {{- range $key, $value := .Values.clusterRole.clusterRoleBinding.annotations }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
+  {{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "otel-agent.clusterRoleName" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "otel-agent.serviceAccountName" . }}
+  namespace: {{ include "otel-agent.namespace" . }}
+{{- end }}

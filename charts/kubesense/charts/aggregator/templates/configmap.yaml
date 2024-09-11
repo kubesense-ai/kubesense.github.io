@@ -1,0 +1,329 @@
+{{- if not .Values.existingConfigMaps }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vector.fullname" . }}
+  labels:
+    {{- include "vector.labels" . | nindent 4 }}
+data:
+  {{- if .Values.customConfig }}
+  vector.yaml: |
+{{ tpl (toYaml .Values.customConfig) . | indent 4 }}
+  {{- else if or (eq .Values.role "Aggregator") (eq .Values.role "Stateless-Aggregator") }}
+  aggregator.yaml: |
+    # Vector's API (disabled by default)
+    # Enable and try it out with the `vector top` command
+    data_dir: {{ .Values.dataDir }}
+    api:
+      enabled: true
+      address: "0.0.0.0:8686"
+      graphql: true
+    # Ingest data by tailing one or more files
+    sources:
+      kube_events:
+        type: opentelemetry
+        grpc:
+          address: 0.0.0.0:4317
+        http:
+          address: 0.0.0.0:4318
+          keepalive:
+            max_connection_age_jitter_factor: 0.1
+            max_connection_age_secs: 300
+      kube_logs:
+        address: 0.0.0.0:6000
+        type: http_server
+        decoding:
+          codec: native
+      vector_internal_metrics:
+        type: internal_metrics
+    # Structure and parse via Vector's Remap Language
+    transforms:
+      kube_logs_transform:
+        inputs:
+          - kube_logs
+        type: "remap"
+        drop_on_error: true
+        drop_on_abort: true
+        reroute_dropped: true
+        source: |-
+          .timestamp = parse_timestamp(.timestamp,"%Y-%m-%dT%T%.f%#z") ?? .timestamp
+          .timestamp = format_timestamp(.timestamp, "%Y-%m-%d %T%.f") ?? null
+          .kuid = uuid_v4()
+          .source= "eBPF"
+          .env_type = if (.source_type == "kubernetes_logs") { "k8s" } else if (.source_type == "docker_logs" ) { "docker" } else {.source_type}
+          .pod_name = .kubernetes.pod_name
+          .instance = .pod_name
+          .pod_uid = .kubernetes.pod_uid
+          .namespace = .kubernetes.pod_namespace
+          # parsing level from data
+          .level = parse_regex(string!(.message), r'.*(?<severity>(?i)PANIC|ERROR|WARNING|WARN|INFO|DEBUG|TRACE|FATAL).') ?? { "severity": "UNKNOWN"}
+          .level = upcase(.level.severity)
+          .container_name = .kubernetes.container_name
+          #TODO: need to identify if it is pii data
+          .is_pii = null
+          .host = get!(.kubernetes.node_labels,["kubernetes.io/hostname"])
+          .node_name = .host
+          .message = string!(.message)
+          .message = replace_with(.message,r'\b(?P<username>[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-\._]*[A-Za-z0-9])@(?P<domain>(([A-Za-z0-9]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))\b') -> |match| {
+              domain = string!(match.domain)
+              "*****@{{ "{{domain}}" }}"
+          }
+          .message = redact(.message,[r'\b(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b'], {"type":"text","replacement": "***"} )
+          .body = .message
+          #TODO: add attributes of log
+          .log_attrs =  { "stream": .stream,"level": .level}
+          .log_tags = {}
+          #TODO: get cluster
+          #.cluster
+          # TODO: need to identify fromat using parse funtion
+          .format = "unknown"
+          # need regex
+          # TODO: use pod template hash
+          owner =  parse_regex(.kubernetes.pod_owner,r'^(?P<kind>.+)/(?P<name>.+)$') ?? null
+          if owner != null {
+            .workload = if owner.kind == "ReplicaSet" {
+                  hash = get(.kubernetes.pod_labels,["pod-template-hash"]) ?? ""
+                  .current_workload =replace(owner.name , ("-"+ hash) ?? "", "") ?? owner.name
+                  .current_workload
+              } else {
+                  owner.name
+              }
+          }
+          #parsing
+          if .format == "unknown" {
+              log,err = parse_syslog(.message)
+              if err == null {
+                  .format = "syslog"
+                  .log = log
+              }
+          }
+          if .format == "unknown" {
+              log,err = parse_common_log(.message)
+              if err == null {
+                  .format = "clf"
+                  .log = log
+              }
+          }
+          if .format == "unknown" {
+              log , err = parse_nginx_log(.message,"ingress_upstreaminfo")
+              if err == null {
+                  .format = "nginx"
+                  .log = log
+              }
+              if .format == "unknown" {
+                      log , err = parse_nginx_log(.message,"error")
+                      if err == null {
+                          .format = "nginx"
+                          .log = log
+                      }
+              }
+              if .format == "unknown" {
+                      log , err = parse_nginx_log(.message,"combined")
+                      if err == null {
+                          .format = "nginx"
+                          .log = log
+                      }
+              }
+          }
+          if .format == "unknown" {
+              log , err = parse_apache_log(.message,"common")
+              if err == null {
+                  .format = "apache"
+                  .log = log
+              }
+              if .format == "unknown" {
+                      log , err = parse_apache_log(.message,"combined")
+                      if err == null {
+                          .format = "apache"
+                          .log = log
+                      }
+              }
+              if .format == "unknown" {
+                      log , err = parse_apache_log(.message,"error")
+                      if err == null {
+                          .format = "apache"
+                          .log = log
+                      }
+              }
+          }
+          if .format == "unknown" {
+              log , err = parse_json(.message)
+              if err == null {
+                  .format = "json"
+                  .log = log
+              }
+          }
+          if .format == "unknown" {
+              log , err = parse_klog(.message)
+              if err == null {
+                  .format = "klog"
+                  .log = log
+              }
+          }
+          if .format == "unknown" {
+              log , err = parse_key_value(.message,accept_standalone_key: false)
+              if err == null {
+                  .format = "logfmt"
+                  .log = log
+              }
+          }
+          if .format != "unknown" && .log != null  {
+            .string_attributes = {}
+            .float_attributes = {}
+            log  = object!(.log)
+              map_keys(log) -> |key| {
+              val = get!(log,[ key ])
+              if val != null {
+                  if is_float(val) || is_integer(val) {
+                      .float_attributes =set!( .float_attributes, [key], to_float!(val) )
+                  } else if is_object(val) || is_array(val) {
+                      .string_attributes =set!(.string_attributes, [key], encode_json(val) )
+                  } else {
+                      .string_attributes =set!( .string_attributes, [key], to_string!(val) )
+                  }
+              }
+              key
+              }
+          }
+          if .format != "unknown" && .log != null  {
+              .parsed_log = encode_json(.log)
+              del(.log)
+          }
+      kube_event_transform:
+        inputs:
+          - kube_events.logs
+        type: "remap"
+        source: |-
+          .raw = .message.entity
+          .event_id = uuid_v4()
+          first_timestamp = parse_timestamp(.message.entity.firstTimestamp,"%Y-%m-%dT%T%.f%#z") ?? now()
+          .first_timestamp = format_timestamp(first_timestamp, "%Y-%m-%d %T%.f") ?? null
+          last_timestamp = parse_timestamp(.message.entity.lastTimestamp,"%Y-%m-%dT%T%.f%#z") ?? now()
+          .last_timestamp = format_timestamp(last_timestamp, "%Y-%m-%d %T%.f") ?? null
+          created_timestamp = parse_timestamp(.message.entity.metadata.creationTimestamp,"%Y-%m-%dT%T%.f%#z") ?? now()
+          .created_timestamp = format_timestamp(created_timestamp, "%Y-%m-%d %T%.f") ?? null
+          seen_timestamp = parse_timestamp(.observed_timestamp,"%Y-%m-%dT%T%.f%#z") ?? now()
+          .seen_timestamp = format_timestamp(seen_timestamp, "%Y-%m-%d %T%.f") ?? now()
+          .env = .message.cluster_name
+          .source = "k8s_watcher"
+          .is_external = false
+          .entity_uid = .message.entity.involvedObject.uid
+          .entity_name = .message.entity.involvedObject.name
+          .entity_kind = .message.entity.involvedObject.kind
+          if .message.entity.involvedObject.kind != "Node" {
+              parse = parse_regex(.message.entity.involvedObject.name,r'^(?P<r1>.*?)-[a-fA-F0-9]{8}-[a-zA-Z0-9]{4,5}$|^(?P<r2>.*?)-\d+-[a-zA-Z0-9]+$|^(?P<r3>.*?)-[a-fA-F0-9]{9,10}-[a-zA-Z0-9]{4,5}$|(?P<r4>.+)-[^-]+$') ?? null
+              .entity_workload = if parse.r1 != null {
+                  parse.r1
+              } else if parse.r2 != null {
+                  parse.r2
+              } else if parse.r3 != null {
+                  parse.r3
+              } else if parse.r4 != null {
+                  parse.r4
+              } else {
+                  .involvedObject.name
+              }
+              .entity_namespace = .message.entity.metadata.namespace
+          }
+          .type = .message.entity.type
+          .category = "k8s_events"
+          .severity = if .type == "Warning" {
+              "warning"
+          } else {
+              "info"
+          }
+          .k8s_event_uid = .message.entity.metadata.uid
+          .k8s_reason = .message.entity.reason
+          .k8s_message = .message.entity.message
+          .count = .message.entity.count
+          del(.attributes)
+          del(.dropped_attributes_count)
+          del(.message)
+          del(.observed_timestamp)
+          del(.resources)
+          del(.source_type)
+    # Send structured data to a clickhouse
+    sinks:
+      victoria_metrics_sink:
+        type: prometheus_remote_write
+        inputs:
+          - vector_internal_metrics
+        healthcheck: false
+        endpoint: "{{ if $.Values.global.externalVictoriaMetrics.enabled }}{{ $.Values.global.externalVictoriaMetrics.url }}{{ else }}http://{{ .Values.global.vmAgentIp }}:{{ .Values.global.vmAgentHttpPort }}{{ end }}/api/v1/write"
+      clickhouse_sink:
+        type: clickhouse
+        request:
+          timeout_secs: 300
+          retry_max_duration_secs: 120
+        inputs:
+          - kube_logs_transform
+        endpoint: "http://{{ if $.Values.global.externalClickHouse.enabled }}kubesense-external-clickhouse{{ else }}{{ .Release.Namespace }}-clickhouse-headless{{end}}:8123"
+        database: kube_logs
+        table: logs
+        auth:
+          strategy: "basic"
+          user: {{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.username }}{{ else }}default{{end}}
+          # password: {{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.password }}{{ else }}{{ $.Values.global.clickhouse.password }}{{end}}
+          password: "${CLICKHOUSE_PASSWORD}"
+        skip_unknown_fields: true
+        batch:
+          max_events: {{ .Values.batch.max_events | int }}
+          max_bytes: {{ .Values.batch.max_bytes | int }}
+          timeout_secs: {{ .Values.batch.timeout_secs | int }}
+        buffer:
+        # - type: memory
+        #   max_events: {{ .Values.buffer.max_events | int }}
+        #   # when_full: overflow
+        #   when_full: block
+        - type: disk
+          max_size: 10200547328 # 9.5GiB.
+          when_full: block
+      clickhouse_events_sink:
+        type: clickhouse
+        inputs:
+          - kube_event_transform
+        endpoint: "http://{{ if $.Values.global.externalClickHouse.enabled }}kubesense-external-clickhouse{{ else }}{{ .Release.Namespace }}-clickhouse-headless{{end}}:8123"
+        database: kube_events
+        table: k8s_events
+        auth:
+          strategy: "basic"
+          user: {{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.username }}{{ else }}default{{end}}
+          # password: {{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.password }}{{ else }}{{ $.Values.global.clickhouse.password }}{{end}}
+          password: "${CLICKHOUSE_PASSWORD}"
+        skip_unknown_fields: true
+        batch:
+          max_events: 500
+          timeout_secs: 3
+  {{- else if (eq .Values.role "Agent") }}
+  agent.yaml: |
+    data_dir: /vector-data-dir
+    api:
+      enabled: true
+      address: 127.0.0.1:8686
+      playground: false
+    sources:
+      kubernetes_logs:
+        type: kubernetes_logs
+      host_metrics:
+        filesystem:
+          devices:
+            excludes: [binfmt_misc]
+          filesystems:
+            excludes: [binfmt_misc]
+          mountpoints:
+            excludes: ["*/proc/sys/fs/binfmt_misc"]
+        type: host_metrics
+      internal_metrics:
+        type: internal_metrics
+    sinks:
+      prom_exporter:
+        type: prometheus_exporter
+        inputs: [host_metrics, internal_metrics]
+        address: 0.0.0.0:9090
+      stdout:
+        type: console
+        inputs: [kubernetes_logs]
+        encoding:
+          codec: json
+  {{- end }}
+{{- end }}

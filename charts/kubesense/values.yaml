@@ -1,0 +1,994 @@
+global:
+  deploymentType: server
+  # required for sensor deployment type
+  cluster_name: k8s-beta-cluster
+  dashboardHostName: beta.kubesense.ai
+  ingress:
+    enabled: false
+    className: nginx
+    tls:
+      enabled: false
+      secretName: kubesense.ai-certs
+  enableSecretHook: true
+  secretName: kubesense-secret
+  kubeOtelIp: kubesense-kubeotel
+  kubeOtelGrpcPort: 30050
+  kubeOtelHttpPort: 30051
+  kubeAggregatorIp: kubesense-aggregator
+  vmAgentIp: kubesense-victoria-metrics-agent
+  vmAgentHttpPort: 30060
+  timezone: "Etc/GMT"
+  aws:
+    SENDER_EMAIL: 
+    AWS_REGION: 
+    AWS_ACCESS_KEY: 
+    AWS_SECRET_KEY: 
+  allow-origins:
+  image:
+    registry: 365639915496.dkr.ecr.us-east-1.amazonaws.com
+    pullPolicy: IfNotPresent
+    pullSecrets: registry-credentials
+  hostNetwork: false
+  dnsPolicy: ClusterFirst
+  mysql:
+    password: ""
+  redis:
+    password: ""
+  clickhouse:
+    password: ""
+  s3StorageConfig:
+    enabled: false
+    endpoint: 
+    accessKeyID: 
+    secretAccessKey: 
+  podManagementPolicy: "OrderedReady"
+  kubecol:
+    kubetraceDecoderQueueCount: 2
+  replicas: 1  ## replicas for kubecol and clickhouse
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+    # - matchExpressions:
+    #     - key: node.kubernetes.io/instance-type
+    #       operator: In
+    #       values: e2-standard-4
+  tolerations: []
+  nodeAffinityTermLabelSelector: []
+  enableNodePorts: false
+  nodePort: 
+    clickhouseTcpPort:
+    clickhouseHttpPort:
+    kubecolCollector: 32133
+    kubecolGrpc: 32033
+    # kubecolSslGrpc: 30135
+    kubecolhealthCheck: 32233
+    kubeotelGrpcPort: 30050
+    kubeotelHttpPort: 30051
+    kubeAggregatorHttpPort: 30050
+    kubeAggregatorGrpcPort: 30051
+    kubeAggregatorLogPort: 30052
+  ntpServer: time1.google.com
+  ## Whether to enable allInone local storage, if enabled, the local /opt directory is used to store data by default, ignoring the node affinity check, and is not responsible for any data persistence
+  allInOneLocalStorage: false
+  storageClass: ""
+  externalClickHouse:
+    enabled: false  ## Enable external ClickHouse
+    type: ep
+    clusterName: default 
+    storagePolicy: default 
+    username: default ## External ClickHouse username
+    password: password ## External ClickHouse Password
+    hosts:
+    - ip: 10.1.2.3
+      tcpPort: 9000
+      httpPort: 8123
+  externalMySQL:
+    enabled: false 
+    host: 10.1.2.3 
+    port: 3306 
+    username:  
+    password:  
+  externalVictoriaMetrics:  
+    enabled: false
+    url: 
+    tlsInsecureSkipVerify: "true"
+  externalRedis:
+    enabled: false
+    host: 10.1.2.3
+    port: 6379
+    password: defaultPass
+  metrics:
+    enabled: true
+  ebpfsensor: 
+    enabled: true  
+  logsensor:
+    enabled: false
+  logsensor2:
+    enabled: true
+  openai:
+    apiKey: 
+  initContainers:
+    - name: wait-for-db
+      image: "{{ $.Values.global.image.registry }}/alpine:v1.0.0"
+      imagePullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+      command: ['/bin/sh', '-c', 'until timeout 2 nc -zv $MYSQL_HOST $MYSQL_PORT && timeout 2 nc -zv $CLICKHOUSE_HOST $CLICKHOUSE_PORT; do echo "waiting for mysql & clickhouse"; sleep 2; done;']
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+      env:
+      - name: MYSQL_HOST
+        value: kubesense-mysql
+      - name: MYSQL_PORT
+        value: "3306"
+      - name: CLICKHOUSE_HOST
+        value: kubesense-clickhouse-headless
+      - name: CLICKHOUSE_PORT
+        value: "8123"
+
+grafana: 
+  enabled: true
+  replicaCount: 1
+  image:
+    registry: "{{ $.Values.global.image.registry }}"
+    repository: grafana
+    tag: 11.2.0
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    pullSecrets:
+    - "{{ $.Values.global.image.pullSecrets }}"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  initChownData:
+    enabled: true
+    image:
+      registry: "{{ $.Values.global.image.registry }}"
+      repository: busybox
+      tag: "1.31.1"
+      pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  service:
+    type: ClusterIP
+    port: 3000
+
+  config:
+    GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
+    GF_SECURITY_ADMIN_USER: admin
+    GF_SECURITY_ADMIN_PASSWORD: tyke@AI123$$
+    GF_SECURITY_ADMIN_EMAIL: tech@kubesense.ai
+    GF_LOG_LEVEL: debug
+  env:
+    GF_INSTALL_PLUGINS: grafana-clickhouse-datasource
+    GF_SECURITY_ADMIN_USER: admin
+    GF_SECURITY_ADMIN_PASSWORD: tyke@AI123$$
+    GF_SECURITY_ADMIN_EMAIL: tech@kubesense.ai
+    GF_LOG_LEVEL: debug
+  envValueFrom:
+    CLICKHOUSE_PASSWORD:
+      secretKeyRef:
+        name: kubesense-secret
+        key: CLICKHOUSE_PASSWORD
+
+webapp:
+  enabled: true
+  image:
+    repository: "{{ $.Values.global.image.registry }}/webapp"
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    tag: "1.0.4"
+    imagePullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+  replicaCount: 1
+  fullnameOverride: "webapp"
+  traces:
+    enabled: true
+  logs:
+    enabled: true
+  metrics:
+    enabled: true
+  entity:
+    enabled: true
+  grafana:
+    enabled: true
+  events:
+    enabled: true
+  ai:
+    enabled: false
+  rca: 
+    enabled: false
+  chat: 
+    enabled: false
+  service:
+    type: ClusterIP
+    name: http
+    port: 80
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+api:
+  enabled: true
+  image:
+    repository: "{{ $.Values.global.image.registry }}/api"
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    tag: "1.0.4"
+    imagePullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+  replicaCount: 1
+  fullnameOverride: "api"
+  env:
+    - name: TESTS_STORE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: MYSQL_PASSWORD
+    - name: TRACES_STORE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: CLICKHOUSE_PASSWORD
+    - name: CACHE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: REDIS_PASSWORD
+  
+  service:
+    type: ClusterIP
+    name: http
+    port: 3000
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+kubeai:
+  env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: CLICKHOUSE_PASSWORD
+  enabled: false
+
+kubecol:
+  image:
+    repository: "{{ $.Values.global.image.registry }}/kubecol"
+    tag: "1.0.7"
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    pullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+  env:
+    - name: MYSQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: MYSQL_PASSWORD
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: CLICKHOUSE_PASSWORD
+    - name: REDIS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: REDIS_PASSWORD
+  ## Pod Labels
+  podLabels: {}
+  replicas: "{{ .Values.global.replicas }}"
+  hostNetwork:  "{{ .Values.global.hostNetwork }}"
+  dnsPolicy: "{{ .Values.global.dnsPolicy }}"
+  podManagementPolicy: "{{ .Values.global.podManagementPolicy }}"
+  featureFlag: []
+  readinessProbe:
+    httpGet:
+      path: /v1/health/
+      port: server
+    failureThreshold: 10
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    successThreshold: 1
+  livenessProbe:
+    failureThreshold: 6
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    successThreshold: 1
+    httpGet:
+      path: /v1/health/
+      port: server
+    timeoutSeconds: 1  
+  service:
+    ## Configuration for kubecol service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for kubecol Service to listen on
+    ##
+
+    ports:
+    # - name: profile
+    #   port: 20419
+    #   targetPort: 20419
+    #   nodePort:
+    #   protocol: TCP
+    - name: health-check
+      port: 22233
+      targetPort: 22233
+      nodePort: "{{ .Values.global.nodePort.kubecolhealthCheck }}"
+      protocol: TCP
+    - name: grpc
+      port: 22033
+      targetPort: 22033
+      nodePort:
+      protocol: TCP
+    - name: grpc-32033
+      port: 32033
+      targetPort: 22033
+      nodePort: "{{ .Values.global.nodePort.kubecolGrpc }}"
+      protocol: TCP
+    - name: ssl-grpc
+      port: 22443
+      targetPort: 22443
+      nodePort: # "{{ .Values.global.nodePort.kubecolSslGrpc }}"
+      protocol: TCP
+    - name: collector
+      port: 22133
+      targetPort: 22133
+      nodePort:
+      protocol: TCP
+    - name: collector-32133
+      port: 32133
+      targetPort: 22133
+      nodePort: "{{ .Values.global.nodePort.kubecolCollector }}"
+      protocol: TCP
+    ## Additional ports to open for server service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+  
+    externalTrafficPolicy: Cluster
+
+    ## Service type
+    ##
+    # type: "{{ if $.Values.global.enableNodePorts }}NodePort{{ else }}ClusterIP{{end}}"
+    # type: NodePort
+    type: ClusterIP    
+
+  resources: 
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    requests:
+      cpu: 750m
+      memory: 3072Mi
+    limits:
+      cpu: 1000m
+      memory: 4096Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 3
+    maxReplicas: 10
+    targetMemoryUtilizationPercentage: 75
+    targetCPUUtilizationPercentage: 95
+    annotations: {}
+    customMetric: {}
+      #  - type: Pods
+      #    pods:
+      #      metric:
+      #        name: utilization
+      #      target:
+      #        type: AverageValue
+      #        averageValue: 95
+    # autoscaling.behavior -- Configure separate scale-up and scale-down behaviors.
+    behavior: {}
+      # scaleDown:
+      #   stabilizationWindowSeconds: 300
+
+  nodeSelector: {}
+
+  podAntiAffinityLabelSelector: []
+    # - labelSelector:
+    #   - key: app
+    #     operator: In
+    #     values: kubecol
+    #   - key: component
+    #     operator: In
+    #     values: kubecol
+    #   topologyKey: "kubernetes.io/hostname"
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+  nodeAffinityTermLabelSelector: []
+  extraVolumeMounts: []
+  #   - name: extra-volume-0
+  #     mountPath: /mnt/volume0
+  #     readOnly: true
+  #     existingClaim: volume-claim
+  #   - name: extra-volume-1
+  #     mountPath: /mnt/volume1
+  #     readOnly: true
+  #     hostPath: /usr/shared/
+  podAnnotations: {}
+  config:
+    defaultSensorTridentType: 3
+  configmap:
+    config.yaml:
+      # logfile path
+      log_file: /var/log/kubecol/kubeol.log
+      # loglevel: "debug/info/warn/error"
+      log_level: info
+      controller:
+        # controller http listenport
+        listen_port: 22233
+        # grpc server port
+        grpc_port: 22033
+        # grpc max message lenth default 100M
+        max_grpc_message_length: 104857600
+        # kubeconfig
+        kubeconfig:
+        # election
+        election_namespace: "{{ $.Chart.Name }}"
+        election_name: "{{ $.Chart.Name }}-kubecol"
+        mysql:
+          database: kubecoldb
+          username: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.username}}{{ else }}kubesense{{end}}"
+          # password: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.password}}{{ else }}{{ .Values.global.mysql.password }}{{end}}"
+          password: "${MYSQL_PASSWORD}"
+          #Please ignore this
+          host: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.host}}{{ else }}{{ $.Chart.Name }}-mysql{{end}}"
+          port: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.port}}{{ else }}3306{{end}}"
+          timeout: 30
+        clickhouse:
+          database: kube_k8s
+          username: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.username }}{{ else }}default{{end}}"
+          port: 9000
+          host: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Chart.Name }}-external-clickhouse{{ else }}{{ .Chart.Name }}-clickhouse-headless{{end}}"
+          # password: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.password }}{{ else }}{{ $.Values.global.clickhouse.password }}{{end}}"
+          password: "${CLICKHOUSE_PASSWORD}"
+          cluster : "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.clusterName}}{{ else }}kubecol_cluster{{end}}"
+        kubesync:
+          default_sensor_trident_type: "{{ .Values.kubecol.config.defaultSensorTridentType }}"
+        redis:
+          enabled: false
+          cluster_enabled: false
+          resource_api_database: 1
+          resource_api_expire_interval: 3600
+          dimension_resource_database: 2
+          # password: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.password }}{{ else }}{{ $.Values.global.redis.password }}{{ end }}"
+          password: "${REDIS_PASSWORD}"
+          host:
+            - "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.host }}{{ else }}{{ .Chart.Name }}-redis-master{{ end }}"
+          port: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.port }}{{ else }}6379{{ end }}"
+          timeout: 30
+      collector:
+        clickhouse:
+          # use internal or external clickhouse
+          external: "{{ $.Values.global.externalClickHouse.enabled }}"
+          host: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Chart.Name }}-external-clickhouse{{ else }}{{ .Chart.Name }}-clickhouse-headless{{end}}"
+          port: 9000
+          # if `external` is 'true', default value is 'default', else 'kubecol_cluster'
+          cluster: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.clusterName}}{{ else }}kubecol_cluster{{end}}"
+          # if `external` is 'true', default value 'default', else 'kubecol_storage'
+          storage_policy:  "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.storagePolicy}}{{end}}"
+          replicas_enabled: "{{- if or (gt (.Values.global.clickhouse.shards | int) 1) (gt (.Values.global.clickhouse.repicaCount | int) 1)  }}true{{ else }}false{{ end }}"
+        clickhouse_auth:
+          username: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.username }}{{ else }}default{{end}}"
+          # '#','@' special characters are not supported in passwords
+          # password: "{{ if $.Values.global.externalClickHouse.enabled }}{{ $.Values.global.externalClickHouse.password }}{{ else }}{{ $.Values.global.clickhouse.password }}{{end}}"
+          password: "${CLICKHOUSE_PASSWORD}"
+        # es_syslog: false
+        redis:
+          enabled: false
+          cluster_enabled: false
+          resource_api_database: 1
+          resource_api_expire_interval: 3600
+          dimension_resource_database: 2
+          # password: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.password }}{{ else }}{{ $.Values.global.redis.password }}{{ end }}"
+          password: "${REDIS_PASSWORD}"
+          host:
+            - "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.host }}{{ else }}{{ .Chart.Name }}-redis-master{{ end }}"
+          port: "{{ if $.Values.global.externalRedis.enabled }}{{ $.Values.global.externalRedis.port }}{{ else }}6379{{ end }}"
+          timeout: 30
+        kube_trace_decoder_queue_count: "{{ $.Values.global.kubecol.kubetraceDecoderQueueCount }}"
+        kube_trace_decoder_queue_size: 10000
+        kube_trace_writer:
+          queue_count: 1
+          queue_size: 500000
+          batch_size: 256000
+          flush_timeout: 5
+
+clickhouse:
+  enabled: true
+  image:
+    registry: 365639915496.dkr.ecr.us-east-1.amazonaws.com
+    repository: clickhouse
+    tag: 24.6.2
+    pullPolicy: IfNotPresent
+    pullSecrets: 
+    - registry-credentials
+    debug: false
+  s3StorageConfig:
+    enabled: "{{ $.Values.global.s3StorageConfig.enabled }}"
+    endpoint: "{{ $.Values.global.s3StorageConfig.endpoint }}"
+    accessKeyID: "{{ $.Values.global.s3StorageConfig.accessKeyID }}"
+    secretAccessKey: "{{ $.Values.global.s3StorageConfig.secretAccessKey }}"
+  shards: "1"
+  replicaCount: "1"
+  containerSecurityContext:
+    enabled: false
+  podLabels: {}
+  podSecurityContext:
+    enabled: false
+  volumePermissions:
+    enabled: true
+    image:
+      registry: 365639915496.dkr.ecr.us-east-1.amazonaws.com
+      repository: os-shell
+      tag: 12-debian-12-r19
+      pullPolicy: IfNotPresent
+      pullSecrets:
+      - registry-credentials
+
+    pullSecrets: []
+  zookeeper:
+    enabled: false
+  metrics:
+    enabled: true
+  auth:
+    existingSecret: "kubesense-secret" # override global.clickhouse.auth.existingSecret to use exisiting secret
+    existingSecretKey: "CLICKHOUSE_PASSWORD"
+  extraEnvVars:
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: '{{ include "clickhouse.secretName" $ }}'
+          key: '{{ include "clickhouse.secretKey" $ }}'
+  service:
+    nodePorts:
+      http: "{{ .Values.global.nodePort.clickhouseHttpPort }}"
+      tcp: "{{ .Values.global.nodePort.clickhouseTcpPort }}"
+
+  extraOverrides: |
+    <clickhouse>
+      <max_table_size_to_drop>0</max_table_size_to_drop>
+      <max_partition_size_to_drop>0</max_partition_size_to_drop>
+      <merge_tree>
+        <materialize_ttl_recalculate_only>1</materialize_ttl_recalculate_only>
+        <max_suspicious_broken_parts_bytes>5368709120</max_suspicious_broken_parts_bytes>
+        <max_suspicious_broken_parts>1000</max_suspicious_broken_parts>
+      </merge_tree>
+      <profiles>
+        <default>
+          <async_insert>true</async_insert>
+          <max_execution_time>300</max_execution_time>
+          <wait_for_async_insert>true</wait_for_async_insert>
+          <materialize_ttl_after_modify>0</materialize_ttl_after_modify>
+        </default>
+      </profiles>
+      <query_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </query_log>
+      <trace_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </trace_log>
+      <metric_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </metric_log>
+    </clickhouse>
+  usersExtraOverrides: |
+    <clickhouse>
+      <profiles>
+        <readonly_with_settings>
+          <readonly>2</readonly>
+        </readonly_with_settings>
+      </profiles>
+      <users>
+        <reader>
+          <password from_env="CLICKHOUSE_PASSWORD" />
+          <networks>
+            <ip>::/0</ip>
+          </networks>
+          <profile>readonly_with_settings</profile>
+          <quota>default</quota>
+        </reader>
+      </users>
+    </clickhouse>
+  persistence:
+    ## @param persistence.enabled Enable persistence using Persistent Volume Claims
+    ##
+    enabled: true
+    ## @param persistence.storageClass Storage class of backing PVC
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    storageClass: ""
+    ## @param persistence.labels Persistent Volume Claim labels
+    ##
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      helm.sh/chart: clickhouse-3.2.1
+    ## @param persistence.annotations Persistent Volume Claim annotations
+    ##
+    annotations: {}
+    ## @param persistence.accessModes Persistent Volume Access Modes
+    ##
+    accessModes:
+      - ReadWriteOnce
+    ## @param persistence.size Size of data volume
+    ##
+    size: 256Gi
+
+  ## ClickHouse resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## @param resources.limits The resources limits for the ClickHouse containers
+  ## @param resources.requests The requested resources for the ClickHouse containers
+  ##
+  resources:
+    requests:
+      cpu: 750m
+      memory: 4096Mi
+    limits:
+      cpu: 1000m
+      memory: 6144Mi
+
+  ## @param affinity Affinity for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ## NOTE: `podAffinityPreset`, `podAntiAffinityPreset`, and `nodeAffinityPreset` will be ignored when it's set
+  ##
+  affinity: {}
+  ## @param nodeSelector Node labels for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+  ## @param tolerations Tolerations for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  ## @param updateStrategy.type ClickHouse statefulset strategy type
+  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+  ##
+  extraVolumes: []
+    # - name: clickhouse-client-config
+    #   configMap:
+    #     name: clickhouse-client-config-map
+
+  extraVolumeMounts: []
+    # - name: clickhouse-client-config
+    #   mountPath: /etc/clickhouse-client/
+
+mysql:
+  enabled: true
+  hostNetwork: "false"
+  dnsPolicy: ClusterFirst
+  nameOverride: ""
+  fullnameOverride: ""
+  password: "{{ .Values.global.mysql.password }}"
+  timezone: "{{ .Values.global.timezone }}"
+  podAnnotations: {}
+  imagePullSecrets: 
+  - name: "{{ $.Values.global.image.pullSecrets }}"
+  image:
+    repository:  "{{ $.Values.global.image.registry }}/mysql"
+    pullPolicy:  "{{ $.Values.global.image.pullPolicy }}"
+    pullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+    tag: 8.4.0
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    ## If your mysql cannot start with hostPath, please open Privileged
+    # privileged: true
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: false
+    # runAsNonRoot: false
+    # runAsUser: 0
+  storageConfig:
+    ## persistentVolumeClaim/hostPath
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    type: persistentVolumeClaim
+    generateType: "{{ if $.Values.global.allInOneLocalStorage }}hostPath{{ else }}{{$.Values.storageConfig.type}}{{end}}" #Please ignore this
+    hostPath: /opt/kubesense-mysql
+    hostPathChownContainerEnabled: true
+    persistence:
+      storageClass: "{{ .Values.global.storageClass }}"
+      annotations:
+        "helm.sh/resource-policy": keep
+      # existingClaim: your-claim-pvc-name
+      accessMode: ReadWriteOnce
+      size: 50Gi 
+
+  service:
+    ## Configuration for ClickHouse service
+    ##
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for ClickHouse Service to listen on
+    ##
+
+    ports:
+    - name: tcp
+      port: 3306
+      targetPort: 3306
+      nodePort: 
+      protocol: TCP
+    ## Additional ports to open for server service
+    additionalPorts: []
+
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+  
+    externalTrafficPolicy: Cluster
+
+    ## Service type
+    ##
+    type: ClusterIP
+
+
+  resources: 
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector: []
+    ## If you use hostPath, you must configure nodeAffinityLabelSelector, otherwise your data will be lost when Pod drifts
+    # - matchExpressions:
+    #     - key: kubernetes.io/hostname
+    #       operator: In
+    #       values: controller
+  nodeAffinityTermLabelSelector: []
+
+redis:
+  enabled: false
+  resources: 
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+  auth:
+    existingSecret: "kubesense-secret" # override global.clickhouse.auth.existingSecret to use exisiting secret
+    existingSecretPasswordKey: "REDIS_PASSWORD"
+
+aggregator:
+  image:
+    repository: "{{ $.Values.global.image.registry }}/vector"
+    tag: "0.38.X-debian"
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    pullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+  env:
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kubesense-secret
+          key: CLICKHOUSE_PASSWORD
+  enabled: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi    
+    limits:
+      cpu: 750m
+      memory: 1024Mi
+
+victoria-metrics-single:
+  enabled: true
+  server:
+    # imagePullSecrets: 
+    # - name: registry-credentials
+    image:
+      repository: "{{ $.Values.global.image.registry }}/victoriametrics"
+      tag: v1.101.0
+      pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+      pullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+    extraArgs:
+      search.maxUniqueTimeseries: "2000000"
+      search.maxSeries: "500000"
+      search.maxTagKeys: "200000"
+      search.maxTagValues: "500000"
+      search.maxQueryLen: "100000"
+      search.maxConcurrentRequests: "8"
+      maxLabelsPerTimeseries: "50"
+      promscrape.maxScrapeSize: "100MB"
+
+    # -- Data retention period, {amount}[h(ours), d(ays), w(eeks), y(ears)], default is 1 month
+    retentionPeriod: 7d
+    # -- Sts/Deploy additional labels
+    extraLabels: {}
+    # -- Pod's additional labels
+    podLabels: {}
+    # -- Pod's annotations
+    podAnnotations:
+      prometheus.io/port: "8428"
+      prometheus.io/scrape: "true"
+    # -- Name of Priority Class
+    priorityClassName:
+
+    service:
+      # -- Service annotations
+      annotations: {}
+      # -- Service labels
+      labels: {}
+      # -- Service ClusterIP
+      clusterIP: ClusterIP
+
+    matchLabels: {}
+
+    statefulSet:
+      annotations: {}
+      # -- Headless service labels
+      labels: {}
+
+    persistentVolume:
+      enabled: true
+      # -- Persistant volume annotations
+      annotations: {}
+
+      # -- StorageClass to use for persistent volume. Requires server.persistentVolume.enabled: true. If defined, PVC created automatically
+      storageClass:
+
+      # -- Use this to override the prefix for the pvc, the suffix is auto-generated by k8s according to the pod name
+      #pvcNameOverride:
+
+      size: 100Gi
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # -- Node tolerations for server scheduling to nodes with taints. Ref: [https://kubernetes.io/docs/concepts/configuration/assign-pod-node/](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
+    tolerations: []
+
+    # -- Pod's node selector. Ref: [https://kubernetes.io/docs/user-guide/node-selection/](https://kubernetes.io/docs/user-guide/node-selection/)
+    nodeSelector: {}
+    # -- Pod affinity
+    # affinity:
+    #   nodeAffinity:
+    #     preferredDuringSchedulingIgnoredDuringExecution:
+    #       - weight: 1
+    #         preference:
+    #           matchExpressions:
+    #             - key: eks.amazonaws.com/capacityType
+    #               operator: NotIn
+    #               values:
+    #                 - SPOT
+
+victoria-metrics-agent:
+  enabled: true
+  image:
+    repository: "{{ $.Values.global.image.registry }}/vmagent"
+    tag: "v1.101.0" # rewrites Chart.AppVersion
+    pullPolicy: "{{ $.Values.global.image.pullPolicy }}"
+    pullSecrets: "{{ $.Values.global.image.pullSecrets }}"
+  # imagePullSecrets: 
+  # - name: "{{ $.Values.global.image.registry }}"
+  service:
+    enabled: true
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  extraArgs:
+    promscrape.streamParse: "true"
+    promscrape.dropOriginalLabels: "true"
+    remoteWrite.showURL: "true"
+    remoteWrite.maxDiskUsagePerURL: 1GB
+    # remoteWrite.headers: "apikey:%{API_KEY}"
+    remoteWrite.tlsInsecureSkipVerify: "{{ if $.Values.global.externalVictoriaMetrics.enabled  }}{{ $.Values.global.externalVictoriaMetrics.tlsInsecureSkipVerify }}{{ else }}true{{ end }}"
+    # remoteWrite.streamAggr.config: "/extra-config/aggregation_config.yaml"
+    remoteWrite.url: "{{ if $.Values.global.externalVictoriaMetrics.enabled }}{{ $.Values.global.externalVictoriaMetrics.url }}{{ else }}http://kubesense-victoria-metrics-single-server:8428{{ end }}/api/v1/write"
+    # tlsKeyFile: /etc/ssl/certs/tls.key
+    # tlsCertFile: /etc/ssl/certs/tls.crt
+    # tls: "{{ .Values.global.metrics.tls.enabled }}"
+  # extraVolumes:
+  #   - name: extra-config
+  #     configMap:
+  #       name: vm-agent-aggregation-config
+  # extraVolumeMounts:
+  #   - name: extra-config
+  #     readOnly: true
+  #     mountPath: /extra-config   
+  config:
+    global:
+      scrape_interval: 10s
+      scrape_timeout: 10s
+    # scrape self by default
+    scrape_configs: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 150m
+      memory: 256Mi

@@ -1,0 +1,12 @@
+{{- if and (eq .Values.mode "daemonset") (.Values.configMap.create) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "otel-agent.fullname" . }}-agent
+  namespace: {{ template "otel-agent.namespace" . }}
+  labels:
+    {{- include "otel-agent.labels" . | nindent 4 }}
+data:
+  relay: |
+    {{- include "otel-agent.daemonsetConfig" . | nindent 4 -}}
+{{- end }}
