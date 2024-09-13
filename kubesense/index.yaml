@@ -3,7 +3,7 @@ entries:
   kubesense:
   - apiVersion: v2
     appVersion: 1.0.7
-    created: "2024-09-11T13:49:18.705549+05:30"
+    created: "2024-09-13T19:44:00.582854+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -46,7 +46,7 @@ entries:
     version: 1.0.18
   - apiVersion: v2
     appVersion: 1.0.6
-    created: "2024-09-11T13:49:18.691484+05:30"
+    created: "2024-09-13T19:44:00.556326+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -89,7 +89,7 @@ entries:
     version: 1.0.17
   - apiVersion: v1
     appVersion: 1.0.6
-    created: "2024-09-11T13:49:18.677641+05:30"
+    created: "2024-09-13T19:44:00.527954+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -132,7 +132,7 @@ entries:
     version: 1.0.16
   - apiVersion: v1
     appVersion: 1.0.6
-    created: "2024-09-11T13:49:18.663155+05:30"
+    created: "2024-09-13T19:44:00.502365+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -175,7 +175,7 @@ entries:
     version: 1.0.15
   - apiVersion: v1
     appVersion: 1.0.4
-    created: "2024-09-11T13:49:18.648894+05:30"
+    created: "2024-09-13T19:44:00.475863+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -218,7 +218,7 @@ entries:
     version: 1.0.14
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-09-11T13:49:18.63465+05:30"
+    created: "2024-09-13T19:44:00.448999+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -261,7 +261,7 @@ entries:
     version: 1.0.13
   - apiVersion: v1
     appVersion: 0.2.7
-    created: "2024-09-11T13:49:18.620444+05:30"
+    created: "2024-09-13T19:44:00.421992+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -307,7 +307,7 @@ entries:
     version: 1.0.12
   - apiVersion: v1
     appVersion: 0.2.6
-    created: "2024-09-11T13:49:18.607441+05:30"
+    created: "2024-09-13T19:44:00.396941+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -353,7 +353,7 @@ entries:
     version: 1.0.11
   - apiVersion: v1
     appVersion: 0.2.4
-    created: "2024-09-11T13:49:18.593392+05:30"
+    created: "2024-09-13T19:44:00.370859+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -399,7 +399,7 @@ entries:
     version: 1.0.10
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2024-09-11T13:49:18.833021+05:30"
+    created: "2024-09-13T19:44:00.799683+05:30"
     description: Update relase name fix & added password generator referencing from
       a secret which is created at the time of hook pre-install, update secret ref
       name, Add ingress, Update randPawords to persist with global value, fix secret
@@ -412,7 +412,7 @@ entries:
     version: 1.0.9
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.820364+05:30"
+    created: "2024-09-13T19:44:00.779824+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -474,7 +474,7 @@ entries:
     version: 1.0.8
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.80304+05:30"
+    created: "2024-09-13T19:44:00.750413+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -535,7 +535,7 @@ entries:
     version: 1.0.7
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.787101+05:30"
+    created: "2024-09-13T19:44:00.72359+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -596,7 +596,7 @@ entries:
     version: 1.0.6
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.771306+05:30"
+    created: "2024-09-13T19:44:00.696661+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -657,7 +657,7 @@ entries:
     version: 1.0.5
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.755245+05:30"
+    created: "2024-09-13T19:44:00.669308+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -718,7 +718,7 @@ entries:
     version: 1.0.4
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.737594+05:30"
+    created: "2024-09-13T19:44:00.640109+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -778,7 +778,7 @@ entries:
     version: 1.0.3
   - apiVersion: v1
     appVersion: 0.2.1
-    created: "2024-09-11T13:49:18.721758+05:30"
+    created: "2024-09-13T19:44:00.613378+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -838,7 +838,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2024-09-11T13:49:18.581617+05:30"
+    created: "2024-09-13T19:44:00.349027+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -889,7 +889,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2024-09-11T13:49:18.570095+05:30"
+    created: "2024-09-13T19:44:00.329331+05:30"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -938,4 +938,4 @@ entries:
     urls:
     - kubesense-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-11T13:49:18.558806+05:30"
+generated: "2024-09-13T19:44:00.309862+05:30"

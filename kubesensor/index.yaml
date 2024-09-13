@@ -3,7 +3,7 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 1.0.2
-    created: "2024-09-11T13:49:18.888529+05:30"
+    created: "2024-09-13T19:44:00.89842+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -15,7 +15,7 @@ entries:
       version: '*.*.*'
     description: Add priorityClassName in logsensor and kubesensor, Update registry
       to gloabl variable
-    digest: 1790012d83487e436bfd2e442455329ef87d3a5e5679f179483ace330bf60339
+    digest: 02d777fab8dd42c83a2be5fd4d01aaf7c8b5ed114ccbb913151bdb36a022afda
     kubeVersion: '>=1.16.0-0'
     name: kubesensor
     type: application
@@ -24,7 +24,7 @@ entries:
     version: 1.0.8
   - apiVersion: v2
     appVersion: 1.0.2
-    created: "2024-09-11T13:49:18.886031+05:30"
+    created: "2024-09-13T19:44:00.893639+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -44,7 +44,7 @@ entries:
     version: 1.0.7
   - apiVersion: v2
     appVersion: 1.0.2
-    created: "2024-09-11T13:49:18.883136+05:30"
+    created: "2024-09-13T19:44:00.889116+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -65,7 +65,7 @@ entries:
     version: 1.0.6
   - apiVersion: v2
     appVersion: 1.0.2
-    created: "2024-09-11T13:49:18.880659+05:30"
+    created: "2024-09-13T19:44:00.884313+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -86,7 +86,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2024-09-11T13:49:18.877893+05:30"
+    created: "2024-09-13T19:44:00.879907+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -107,7 +107,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-09-11T13:49:18.875386+05:30"
+    created: "2024-09-13T19:44:00.874983+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -128,7 +128,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-09-11T13:49:18.872489+05:30"
+    created: "2024-09-13T19:44:00.870479+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -149,7 +149,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2024-09-11T13:49:18.870031+05:30"
+    created: "2024-09-13T19:44:00.865273+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -169,7 +169,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-09-11T13:49:18.867198+05:30"
+    created: "2024-09-13T19:44:00.860073+05:30"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -187,4 +187,4 @@ entries:
     urls:
     - kubesensor-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-11T13:49:18.864615+05:30"
+generated: "2024-09-13T19:44:00.854504+05:30"
