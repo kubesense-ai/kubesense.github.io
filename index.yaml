@@ -44,4 +44,48 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v1.1.1/kubesense-1.1.1.tgz
     version: 1.1.1
-generated: "2024-10-07T12:49:57.595199+05:30"
+  kubesense-server:
+  - apiVersion: v2
+    appVersion: 1.0.7
+    created: "2024-10-07T07:22:15.161394762Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: ""
+      version: '*.*.*'
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: ""
+      version: '*.*.*'
+    - condition: mysql.enabled
+      name: mysql
+      repository: ""
+      version: '*.*.*'
+    - condition: redis.enabled
+      name: redis
+      repository: ""
+      version: '*.*.*'
+    - condition: aggregator.enabled
+      name: aggregator
+      repository: ""
+      version: '*.*.*'
+    - condition: victoria-metrics-agent.enabled
+      name: victoria-metrics-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: victoria-metrics-single.enabled
+      name: victoria-metrics-single
+      repository: ""
+      version: '*.*.*'
+    - condition: kubeai.enabled
+      name: kubeai
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v1.0.1
+    digest: 2cc99f4b457825dfaadb5c9f668353de34b5ed8c17193c1240a87b1148bf3cf6
+    name: kubesense-server
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-server-v1.1.0/kubesense-server-1.1.0.tgz
+    version: 1.1.0
+generated: "2024-10-07T07:22:15.133230576Z"
