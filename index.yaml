@@ -112,6 +112,27 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 1.0.2
+    created: "2024-10-07T07:05:56.703163597Z"
+    dependencies:
+    - condition: otel-agent.enabled
+      name: otel-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: ""
+      version: '*.*.*'
+    description: Add priorityClassName in logsensor and kubesensor, Update registry
+      to gloabl variable
+    digest: 67dafb015d0ebcee716f3f1e27fd48a46b7ac36385c5805324da351e55a666e6
+    kubeVersion: '>=1.16.0-0'
+    name: kubesensor
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v1.1.0/kubesensor-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 1.0.2
     created: "2024-10-04T14:40:56.154551187Z"
     dependencies:
     - condition: otel-agent.enabled
@@ -131,4 +152,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/v0.0.3/kubesensor-1.0.8.tgz
     version: 1.0.8
-generated: "2024-10-07T07:04:35.219707062Z"
+generated: "2024-10-07T07:05:56.69137692Z"
