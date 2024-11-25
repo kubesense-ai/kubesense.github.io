@@ -111,7 +111,7 @@ entries:
   kubesense-server:
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2024-10-23T11:18:02.607586519Z"
+    created: "2024-11-25T07:27:52.171224761Z"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -146,7 +146,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v1.1.0
-    digest: d39fd398fe32244772c1d1481bc7d0784b68680e9fa0200d1d64b18e6cbac610
+    digest: e5f424aa5803fa7e68200e6875c63b1b828037de05ccdcfe688d59f2346cac47
     icon: https://kubesense.ai/logo_color.svg
     name: kubesense-server
     type: application
@@ -238,4 +238,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v1.1.0/kubesensor-1.1.0.tgz
     version: 1.1.0
-generated: "2024-11-25T07:27:33.13659103Z"
+generated: "2024-11-25T07:27:52.126519997Z"
