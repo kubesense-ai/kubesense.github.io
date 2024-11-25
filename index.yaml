@@ -23,49 +23,6 @@ entries:
     version: 0.1.1
   kubesense:
   - apiVersion: v2
-    appVersion: 1.1.0
-    created: "2024-10-23T11:17:47.458338837Z"
-    dependencies:
-    - condition: grafana.enabled
-      name: grafana
-      repository: ""
-      version: '*.*.*'
-    - condition: clickhouse.enabled
-      name: clickhouse
-      repository: ""
-      version: '*.*.*'
-    - condition: mysql.enabled
-      name: mysql
-      repository: ""
-      version: '*.*.*'
-    - condition: redis.enabled
-      name: redis
-      repository: ""
-      version: '*.*.*'
-    - condition: aggregator.enabled
-      name: aggregator
-      repository: ""
-      version: '*.*.*'
-    - condition: victoria-metrics-agent.enabled
-      name: victoria-metrics-agent
-      repository: ""
-      version: '*.*.*'
-    - condition: victoria-metrics-single.enabled
-      name: victoria-metrics-single
-      repository: ""
-      version: '*.*.*'
-    - condition: kubeai.enabled
-      name: kubeai
-      repository: ""
-      version: '*.*.*'
-    description: Prod release v1.1.0
-    digest: de2b5cc5c6cc5260c4702e8a52a78545892e2a302f75d1afbab2816ef518c8c8
-    name: kubesense
-    type: application
-    urls:
-    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v1.1.2/kubesense-1.1.2.tgz
-    version: 1.1.2
-  - apiVersion: v2
     appVersion: 1.0.7
     created: "2024-11-25T06:58:26.288220809Z"
     dependencies:
