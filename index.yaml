@@ -199,7 +199,7 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2024-10-23T06:52:39.622930842Z"
+    created: "2024-11-25T07:27:33.142544867Z"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -210,7 +210,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v1.1.0
-    digest: df257c21bc414bdae91786a2ea5940a2bb264bcb875cfcce99b7cd064c2f636f
+    digest: bc4f9c3d3a523e63ed8ebc05425feb5140e1bca2008cf1fa8fd1935f0856993a
     kubeVersion: '>=1.16.0-0'
     name: kubesensor
     type: application
@@ -238,4 +238,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v1.1.0/kubesensor-1.1.0.tgz
     version: 1.1.0
-generated: "2024-11-25T06:58:26.256010514Z"
+generated: "2024-11-25T07:27:33.13659103Z"
