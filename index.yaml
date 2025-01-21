@@ -24,18 +24,18 @@ entries:
   kubesense:
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2024-11-27T07:51:45.702050809Z"
+    created: "2025-01-21T10:48:56.126626846Z"
     dependencies:
     - condition: grafana.enabled
       name: grafana
       repository: ""
       version: '*.*.*'
-    - condition: clickhouse.enabled
-      name: clickhouse
+    - condition: datastore.enabled
+      name: datastore
       repository: ""
       version: '*.*.*'
-    - condition: mysql.enabled
-      name: mysql
+    - condition: kubecoldb.enabled
+      name: kubecoldb
       repository: ""
       version: '*.*.*'
     - condition: redis.enabled
@@ -46,12 +46,12 @@ entries:
       name: aggregator
       repository: ""
       version: '*.*.*'
-    - condition: victoria-metrics-agent.enabled
-      name: victoria-metrics-agent
+    - condition: metrics-scraper.enabled
+      name: metrics-scraper
       repository: ""
       version: '*.*.*'
-    - condition: victoria-metrics-single.enabled
-      name: victoria-metrics-single
+    - condition: metrics-store.enabled
+      name: metrics-store
       repository: ""
       version: '*.*.*'
     - condition: kubeai.enabled
@@ -59,11 +59,11 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v1.1.0
-    digest: 61864f1fe2ce225f71e60d74c393a65879595ee11d48b45048dd26b4371c60a6
+    digest: 294516b3f0edcabc384d5837e95394a0f196ff1b2830e42b4b9419cae0c059ea
     name: kubesense
     type: application
     urls:
-    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v1.1.1/kubesense-1.1.1.tgz
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v2.0.0/kubesense-1.1.1.tgz
     version: 1.1.1
   kubesense-server:
   - apiVersion: v2
@@ -195,4 +195,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v1.1.0/kubesensor-1.1.0.tgz
     version: 1.1.0
-generated: "2025-01-21T10:48:19.214230046Z"
+generated: "2025-01-21T10:48:56.093722818Z"
