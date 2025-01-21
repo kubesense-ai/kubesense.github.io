@@ -23,6 +23,49 @@ entries:
     version: 0.1.1
   kubesense:
   - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2025-01-21T11:22:38.611292927Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: ""
+      version: '*.*.*'
+    - condition: datastore.enabled
+      name: datastore
+      repository: ""
+      version: '*.*.*'
+    - condition: kubecoldb.enabled
+      name: kubecoldb
+      repository: ""
+      version: '*.*.*'
+    - condition: redis.enabled
+      name: redis
+      repository: ""
+      version: '*.*.*'
+    - condition: aggregator.enabled
+      name: aggregator
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-scraper.enabled
+      name: metrics-scraper
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-store.enabled
+      name: metrics-store
+      repository: ""
+      version: '*.*.*'
+    - condition: kubeai.enabled
+      name: kubeai
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v2.0.0 with otel support
+    digest: 12a1dd6ab4130ff5010bd69a95dad41695ea4ab228aefc5393ddc64025087129
+    name: kubesense
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v2.0.0/kubesense-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
     appVersion: 1.1.0
     created: "2025-01-21T11:18:24.216644115Z"
     dependencies:
@@ -259,4 +302,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v1.1.0/kubesensor-1.1.0.tgz
     version: 1.1.0
-generated: "2025-01-21T11:19:07.564822528Z"
+generated: "2025-01-21T11:22:38.578678157Z"
