@@ -24,7 +24,7 @@ entries:
   kubesense:
   - apiVersion: v2
     appVersion: 2.0.0
-    created: "2025-01-30T07:58:58.56141666Z"
+    created: "2025-01-30T09:41:03.512826073Z"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -59,7 +59,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v2.0.0 with otel support
-    digest: c58c76a30bd656c48910db6ded23d5b6664c4c87daf04baa944dab16f375e59d
+    digest: cd738e88c8d58c4e5687c8a5915672dafb0fb7fefeb11f3417b671afe68dbbf0
     name: kubesense
     type: application
     urls:
@@ -313,4 +313,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-30T09:40:46.391773638Z"
+generated: "2025-01-30T09:41:03.479926377Z"
