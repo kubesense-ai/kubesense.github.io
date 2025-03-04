@@ -305,12 +305,12 @@ entries:
   nfs:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-03-04T12:36:45.063092049Z"
+    created: "2025-03-04T12:48:42.552169495Z"
     description: Add affinity, nodeSelector and tolerations
-    digest: 9a40d87ce95836c6a74400a0d4b7f80081f52f2c9ec54f67c0f0141b004e3f30
+    digest: 39bb539781e5c825e1bf81541236b05fb3814804c1024894982efe0a81ab60d8
     name: nfs
     type: application
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.2/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-04T12:41:19.626341822Z"
+generated: "2025-03-04T12:48:42.544639917Z"
