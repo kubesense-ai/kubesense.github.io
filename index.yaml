@@ -243,7 +243,7 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 2.0.0
-    created: "2025-03-04T12:39:58.479361925Z"
+    created: "2025-03-10T08:04:13.350614958Z"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -254,7 +254,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v2.0.0 with otel support
-    digest: a8b1867f774d43e9e7f6723cc853943e129c6caecd40039a4075381871b2abdf
+    digest: 4c40380f6c66c78e7207d1c1fb87606a5aa36549f6393e1f1357f0c229da2152
     kubeVersion: '>=1.16.0-0'
     name: kubesensor
     type: application
@@ -313,4 +313,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-10T08:03:52.119733494Z"
+generated: "2025-03-10T08:04:13.344534206Z"
