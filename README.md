@@ -6,7 +6,7 @@ This Helm chart helps deploy KubeSense on Kubernetes clusters efficiently. It pr
 
 For complete installation, configuration, and troubleshooting instructions, please refer to the official documentation:
 
-[Helm Chart Documentation](https://docs.kubesense.ai/helm-chart/)
+[Helm Chart Documentation](https://docs.kubesense.ai/)
 
 ---
 
