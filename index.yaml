@@ -546,6 +546,26 @@ entries:
     version: 1.1.0
   kubesensor:
   - apiVersion: v2
+    appVersion: 2.0.2
+    created: "2025-04-27T06:01:01.25008635Z"
+    dependencies:
+    - condition: otel-agent.enabled
+      name: otel-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v2.0.2
+    digest: 3e1ed6619e407286717513de1e1ac362a8f1348fee9e67aef11d8b8e76fdb654
+    kubeVersion: '>=1.16.0-0'
+    name: kubesensor
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v2.0.2/kubesensor-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
     appVersion: 2.0.0
     created: "2025-04-24T08:08:58.072621805Z"
     dependencies:
@@ -637,4 +657,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-04-27T06:00:45.011211007Z"
+generated: "2025-04-27T06:01:01.23734282Z"
