@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   access-token:
   - apiVersion: v2
+    appVersion: 1.0.2
+    created: "2025-10-17T17:20:12.815971377Z"
+    description: A Helm chart for creating access-token secret
+    digest: d9b7d49ac2ee238e4e5c1397e209816fe1b07dabb7e5294b548e65f59ba2cab9
+    name: access-token
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/access-token-v1.0.2/access-token-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     appVersion: 1.0.1
     created: "2025-05-05T07:04:07.574708829Z"
     description: A Helm chart for creating access-token secret
@@ -3604,4 +3614,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-10-08T13:52:31.633423186Z"
+generated: "2025-10-17T17:20:12.815029474Z"
