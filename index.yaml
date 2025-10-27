@@ -3402,6 +3402,34 @@ entries:
     version: 1.1.0
   kubesensor:
   - apiVersion: v2
+    appVersion: 2.2.5
+    created: "2025-10-27T10:42:09.082068508Z"
+    dependencies:
+    - condition: otel-agent.enabled
+      name: otel-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: ""
+      version: '*.*.*'
+    - condition: gpu-metrics.enabled
+      name: gpu-metrics
+      repository: ""
+      version: '*.*.*'
+    - condition: kafka-exporter.enabled
+      name: kafka-exporter
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v2.2.5
+    digest: 81d2c8f9b3ee1fd8dfd81c55f7645aa6879171b66cf67965b18be2e1f2c8090f
+    kubeVersion: '>=1.16.0-0'
+    name: kubesensor
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v2.2.5/kubesensor-2.2.5.tgz
+    version: 2.2.5
+  - apiVersion: v2
     appVersion: 2.2.4
     created: "2025-10-27T10:35:17.587109138Z"
     dependencies:
@@ -3661,4 +3689,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2025-10-27T10:41:48.56592989Z"
+generated: "2025-10-27T10:42:09.074754341Z"
