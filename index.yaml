@@ -63,6 +63,57 @@ entries:
     version: 0.1.1
   kubesense:
   - apiVersion: v2
+    appVersion: 2.3.33
+    created: "2026-07-11T07:35:41.913410419Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: ""
+      version: '*.*.*'
+    - condition: datastore.enabled
+      name: datastore
+      repository: ""
+      version: '*.*.*'
+    - condition: kubecoldb.enabled
+      name: kubecoldb
+      repository: ""
+      version: '*.*.*'
+    - condition: redis.enabled
+      name: redis
+      repository: ""
+      version: '*.*.*'
+    - condition: aggregator.enabled
+      name: aggregator
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-scraper.enabled
+      name: metrics-scraper
+      repository: ""
+      version: '*.*.*'
+    - condition: kubesensor.enabled
+      name: kubesensor
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-store.enabled
+      name: metrics-store
+      repository: ""
+      version: '*.*.*'
+    - condition: kubeai.enabled
+      name: kubeai
+      repository: ""
+      version: '*.*.*'
+    - condition: alertmanager.enabled
+      name: alertmanager
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v2.3.33
+    digest: 57b212367b4a375b12f0e2453ab7339fd696166decab2bbb24becd2e4ec0eb08
+    name: kubesense
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-v2.3.33/kubesense-2.3.33.tgz
+    version: 2.3.33
+  - apiVersion: v2
     appVersion: 2.3.32
     created: "2026-07-08T11:42:28.127629406Z"
     dependencies:
@@ -9771,4 +9822,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2026-07-11T07:32:28.672124093Z"
+generated: "2026-07-11T07:35:41.848307735Z"
