@@ -4776,6 +4776,58 @@ entries:
     version: 1.1.1
   kubesense-server:
   - apiVersion: v2
+    appVersion: 2.3.35
+    created: "2026-07-21T09:36:13.094851534Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: ""
+      version: '*.*.*'
+    - condition: datastore.enabled
+      name: datastore
+      repository: ""
+      version: '*.*.*'
+    - condition: kubecoldb.enabled
+      name: kubecoldb
+      repository: ""
+      version: '*.*.*'
+    - condition: redis.enabled
+      name: redis
+      repository: ""
+      version: '*.*.*'
+    - condition: aggregator.enabled
+      name: aggregator
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-scraper.enabled
+      name: metrics-scraper
+      repository: ""
+      version: '*.*.*'
+    - condition: metrics-store.enabled
+      name: metrics-store
+      repository: ""
+      version: '*.*.*'
+    - condition: kubeai.enabled
+      name: kubeai
+      repository: ""
+      version: '*.*.*'
+    - condition: alertmanager.enabled
+      name: alertmanager
+      repository: ""
+      version: '*.*.*'
+    - condition: litellm.enabled
+      name: litellm
+      repository: ""
+      version: '*.*.*'
+    description: Release v2.3.35
+    digest: 810b139d102ba892edea69c952808c5a39ebb30bba330d3321fac6a08395ca72
+    icon: https://kubesense.ai/logo_color.svg
+    name: kubesense-server
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesense-server-v2.3.35/kubesense-server-2.3.35.tgz
+    version: 2.3.35
+  - apiVersion: v2
     appVersion: 2.3.34
     created: "2026-07-17T13:24:47.964241806Z"
     dependencies:
@@ -10135,4 +10187,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2026-07-21T09:35:48.486296782Z"
+generated: "2026-07-21T09:36:13.054023834Z"
