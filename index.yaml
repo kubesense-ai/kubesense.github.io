@@ -174,7 +174,7 @@ entries:
     version: 2.3.48
   - apiVersion: v2
     appVersion: 2.3.47
-    created: "2026-08-26T06:24:29.105628522Z"
+    created: "2026-08-27T16:21:09.992349404Z"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -221,7 +221,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v2.3.47
-    digest: b91eaaaf88abb8827f210e8aba34864d7506a51efdc9f39958a3f44055e7f458
+    digest: 48e41d63a9c45ab61394e6d659341db15e908d384bab44f6b3ce902f973bbd5f
     name: kubesense
     type: application
     urls:
@@ -11754,4 +11754,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2026-08-27T09:27:44.180426596Z"
+generated: "2026-08-27T16:21:09.912188407Z"
