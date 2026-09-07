@@ -10483,6 +10483,50 @@ entries:
   kubesensor:
   - apiVersion: v2
     appVersion: 2.3.16
+    created: "2026-09-07T10:55:43.596465238Z"
+    dependencies:
+    - condition: otel-agent.enabled
+      name: otel-agent
+      repository: ""
+      version: '*.*.*'
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: ""
+      version: '*.*.*'
+    - condition: gpu-metrics.enabled
+      name: gpu-metrics
+      repository: ""
+      version: '*.*.*'
+    - condition: uptime-monitor.enabled
+      name: uptime-monitor
+      repository: ""
+      version: '*.*.*'
+    - condition: kafka-exporter.enabled
+      name: kafka-exporter
+      repository: ""
+      version: '*.*.*'
+    - condition: otel-collector.enabled
+      name: otel-collector
+      repository: ""
+      version: '*.*.*'
+    - condition: sqs-metrics.enabled
+      name: sqs-metrics
+      repository: ""
+      version: '*.*.*'
+    - condition: kyverno.enabled
+      name: kyverno
+      repository: ""
+      version: '*.*.*'
+    description: Prod release v2.3.17
+    digest: b3f248794d1bb9e4bdb9b005b913019e7ac3e8061f42a96d8bcd79561151f9f0
+    kubeVersion: '>=1.16.0-0'
+    name: kubesensor
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/kubesensor-v2.3.17/kubesensor-2.3.17.tgz
+    version: 2.3.17
+  - apiVersion: v2
+    appVersion: 2.3.16
     created: "2026-08-27T09:27:28.251616421Z"
     dependencies:
     - condition: otel-agent.enabled
@@ -11809,4 +11853,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2026-09-07T10:55:26.250114964Z"
+generated: "2026-09-07T10:55:43.558681103Z"
