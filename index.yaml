@@ -14578,4 +14578,21 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/nfs-v0.1.1/nfs-0.1.1.tgz
     version: 0.1.1
-generated: "2026-11-02T08:38:33.021441737Z"
+  synthetics-agent:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-11-02T08:38:52.646940425Z"
+    description: Kubesense Synthetics private probe agent
+    digest: 4791d3dc8abd906bee84a4fb378491928af11a8eddd3ce95e7b78bfb89fa2333
+    keywords:
+    - synthetics
+    - monitoring
+    - probe-agent
+    name: synthetics-agent
+    sources:
+    - https://github.com/kubesense-ai/synthetic
+    type: application
+    urls:
+    - https://github.com/kubesense-ai/kubesense.github.io/releases/download/synthetics-agent-v1.0.0/synthetics-agent-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-11-02T08:38:52.646027718Z"
