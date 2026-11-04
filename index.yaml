@@ -13606,7 +13606,7 @@ entries:
     version: 2.3.16
   - apiVersion: v2
     appVersion: 2.3.15
-    created: "2026-10-26T06:27:54.155976783Z"
+    created: "2026-11-04T08:30:10.458123898Z"
     dependencies:
     - condition: otel-agent.enabled
       name: otel-agent
@@ -13641,7 +13641,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v2.3.15
-    digest: 66d1a28e18c712d56ee106d3eeea756604bb786a98782b0b1abe8946790afc35
+    digest: d66cff4c55704eaf36e5e618d62701d5e6f33ec908e2239aaf38dcd93e97ecf6
     kubeVersion: '>=1.16.0-0'
     name: kubesensor
     type: application
@@ -14905,4 +14905,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/synthetics-agent-v1.0.0/synthetics-agent-1.0.0.tgz
     version: 1.0.0
-generated: "2026-11-04T08:29:52.473558271Z"
+generated: "2026-11-04T08:30:10.42429736Z"
