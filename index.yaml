@@ -2099,7 +2099,7 @@ entries:
     version: 2.3.48
   - apiVersion: v2
     appVersion: 2.3.47
-    created: "2026-11-23T06:24:33.529605139Z"
+    created: "2026-11-24T09:07:48.70956367Z"
     dependencies:
     - condition: grafana.enabled
       name: grafana
@@ -2146,7 +2146,7 @@ entries:
       repository: ""
       version: '*.*.*'
     description: Prod release v2.3.47
-    digest: b8f4b88f8520f13d5bbf0949a775d245791e4689d011e1c34643ccedd60ebf9f
+    digest: 15f8248e5bd55d4c94428040c4d5a5fea31f6f13f3ceeb5502afc61f60881034
     name: kubesense
     type: application
     urls:
@@ -15964,4 +15964,4 @@ entries:
     urls:
     - https://github.com/kubesense-ai/kubesense.github.io/releases/download/synthetics-agent-v1.0.0/synthetics-agent-1.0.0.tgz
     version: 1.0.0
-generated: "2026-11-23T12:17:42.172562697Z"
+generated: "2026-11-24T09:07:48.638760551Z"
